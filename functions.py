@@ -4,7 +4,22 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom
 import eventlet
 import sys
-eventlet.monkey_patch()
+
+
+def readBanksUrls(filename):
+    filename = str(filename)
+    try:
+        tree = ET.parse(filename)
+    except FileNotFoundError as e:
+        print(e)
+        return False
+    else:
+        root = tree.getroot()
+        data = []
+        for bank in root:
+            for url in bank:
+                data.append(url.text)
+        return tuple(data)
 
 
 def request_get(url):
@@ -14,13 +29,17 @@ def request_get(url):
              response = requests.get(url)
              return response.text
     except requests.exceptions.ReadTimeout:
-        sys.exit(" TIMED OUREADT -" + url)
+        print(("TIMED OUREADT -" + url))
+        sys.exit()
     except requests.exceptions.ConnectionError:
-        sys.exit("CONNECT ERROR -" + url)
+        print("CONNECT ERROR -" + url)
+        sys.exit()
     except eventlet.timeout.Timeout as e:
-        sys.exit("TOTAL TIMEOUT -" + url)
+        print("TOTAL TIMEOUT -" + url)
+        sys.exit()
     except requests.exceptions.RequestException as e:
-        sys.exit("OTHER REQUESTS EXCEPTION -" + url + str(e))
+        print("OTHER REQUESTS EXCEPTION -" + url + str(e))
+        sys.exit()
 
 
 def parse_rate_in_UniversalBank(text):
@@ -78,33 +97,17 @@ def parse_rate_in_PravexBank(text):
     return results
 
 
-if __name__ == '__main__':
-    universalUrl = 'https://www.universalbank.com.ua/'
-    oschadUrl = 'https://www.oschadbank.ua/'
-    pravexUrl = 'https://www.pravex.com.ua/'
-
-    json_data = [parse_rate_in_UniversalBank(request_get(universalUrl)),
-                 parse_rate_in_OschadBank(request_get(oschadUrl)),
-                 parse_rate_in_PravexBank(request_get(pravexUrl))]
-
-    # json_data = [{'USD': {'buy': '26.45', 'sell': '26.80'},
-    # 'EUR': {'buy': '32.55', 'sell': '33.05'}},
-    # {'USD': {'buy': '26,1500', 'sell': '26,8000'},
-    # 'EUR': {'buy': '32,0000', 'sell': '32,9000'}},
-    # {'USD': {'buy': '26.3', 'sell': '26.6'},
-    # 'EUR': {'buy': '32.4', 'sell': '32.9'}}]
-
+def from_dict_to_xml(data):
     root = ET.Element('root')
     it_bank = iter(['Universal', 'Oschad', 'Pravex'])
 
-    for bank in json_data:
+    for bank in data:
         bank_name = ET.SubElement(root, next(it_bank))
 
         for r in ['USD', 'EUR']:
             rate = ET.SubElement(bank_name, r)
             buy = ET.SubElement(rate, 'buy')
             sell = ET.SubElement(rate, 'sell')
-
             buy.text = bank[r]['buy']
             sell.text = bank[r]['sell']
 
@@ -114,3 +117,21 @@ if __name__ == '__main__':
 
     with open('static/Output.xml', 'w') as f:
         f.write(pretty_xml)
+
+
+if __name__ == '__main__':
+    rq_tuple = readBanksUrls('static/BanksUrls.xml')
+    if rq_tuple:
+        exchange_rate_data = (parse_rate_in_UniversalBank(request_get(rq_tuple[0])),
+                              parse_rate_in_OschadBank(request_get(rq_tuple[1])),
+                              parse_rate_in_PravexBank(request_get(rq_tuple[2])))
+        from_dict_to_xml(exchange_rate_data)
+
+    exit()
+
+    # json_data = [{'USD': {'buy': '26.45', 'sell': '26.80'},
+    # 'EUR': {'buy': '32.55', 'sell': '33.05'}},
+    # {'USD': {'buy': '26,1500', 'sell': '26,8000'},
+    # 'EUR': {'buy': '32,0000', 'sell': '32,9000'}},
+    # {'USD': {'buy': '26.3', 'sell': '26.6'},
+    # 'EUR': {'buy': '32.4', 'sell': '32.9'}}]
