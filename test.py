@@ -84,18 +84,13 @@ class TestExchangeRateAnalysis(unittest.TestCase):
         self.assertFalse(functions.readBanksUrls('static/BankUrls.xml'))
 
     def test_from_dict_to_xml(self):
-        self.assertIsNone(functions.from_dict_to_xml(({'USD': {'buy': '26.30',
-                                                               'sell': '26.50'},
-                                                       'EUR': {'buy': '32.35',
-                                                               'sell': '32.70'}},
-                                                      {'USD': {'buy': '26,2000',
-                                                               'sell': '26,8500'},
-                                                       'EUR': {'buy': '32,0000',
-                                                               'sell': '32,8500'}},
-                                                      {'USD': {'buy': '26.2',
-                                                               'sell': '26.49'},
-                                                       'EUR': {'buy': '32.35',
-                                                               'sell': '32.8'}})))
+        data = ({'USD': {'buy': '26.30', 'sell': '26.50'},
+                 'EUR': {'buy': '32.35', 'sell': '32.70'}},
+                {'USD': {'buy': '26,2000', 'sell': '26,8500'},
+                 'EUR': {'buy': '32,0000', 'sell': '32,8500'}},
+                {'USD': {'buy': '26.2', 'sell': '26.49'},
+                 'EUR': {'buy': '32.35', 'sell': '32.8'}})
+        self.assertIsNone(functions.from_dict_to_xml(data))
 
 
 if __name__ == '__main__':
