@@ -2,11 +2,25 @@ from lxml import html
 import requests
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
+import eventlet
+import sys
+eventlet.monkey_patch()
 
 
 def request_get(url):
-    r = requests.get(url)
-    return r.text
+    url = str(url)
+    try:
+        with eventlet.timeout.Timeout(10):
+             response = requests.get(url)
+             return response.text
+    except requests.exceptions.ReadTimeout:
+        sys.exit(" TIMED OUREADT -" + url)
+    except requests.exceptions.ConnectionError:
+        sys.exit("CONNECT ERROR -" + url)
+    except eventlet.timeout.Timeout as e:
+        sys.exit("TOTAL TIMEOUT -" + url)
+    except requests.exceptions.RequestException as e:
+        sys.exit("OTHER REQUESTS EXCEPTION -" + url + str(e))
 
 
 def parse_rate_in_UniversalBank(text):
@@ -98,5 +112,5 @@ if __name__ == '__main__':
     newXML = xml.dom.minidom.parseString(tree_out.decode('UTF-8'))
     pretty_xml = newXML.toprettyxml()
 
-    with open('Output.xml', 'w') as f:
+    with open('static/Output.xml', 'w') as f:
         f.write(pretty_xml)
