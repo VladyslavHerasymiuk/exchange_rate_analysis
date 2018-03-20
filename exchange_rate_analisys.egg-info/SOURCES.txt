@@ -1,0 +1,10 @@
+MANIFEST.in
+setup.py
+exchange_rate_analisys.egg-info/PKG-INFO
+exchange_rate_analisys.egg-info/SOURCES.txt
+exchange_rate_analisys.egg-info/dependency_links.txt
+exchange_rate_analisys.egg-info/requires.txt
+exchange_rate_analisys.egg-info/top_level.txt
+exchange_rate_analysis/__init__.py
+exchange_rate_analysis/functions.py
+static/BanksUrls.xml

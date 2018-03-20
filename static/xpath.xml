@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<root>
+	<Universal>
+		<xpath>//table[@class=&quot;rate table table-bordered light fl-left m-t-0-xs m-t-sm-1&quot;]/tbody/tr</xpath>
+	</Universal>
+	<Oshad>
+		<xpath>//span[@class=&quot;currency-rate&quot;]</xpath>
+	</Oshad>
+	<Oshad>
+		<xpath>//div[@class=&quot;currency clearfix&quot;]</xpath>
+	</Oshad>
+</root>
