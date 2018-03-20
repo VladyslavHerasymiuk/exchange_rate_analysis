@@ -7,6 +7,7 @@ setup(
     url='https://github.com/raynem/exchange_rate_analysis.git',
     packages=find_packages(),
     long_description=open(join(dirname(__file__), 'README.txt')).read(),
+    include_package_data=True,
     install_requires=[
         'asn1crypto==0.24.0',
         'attrs==17.4.0',
