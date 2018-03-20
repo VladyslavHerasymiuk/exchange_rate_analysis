@@ -1,5 +1,5 @@
 import unittest
-import functions
+from exchange_rate_analysis import functions
 from mock import patch
 import requests
 import eventlet
