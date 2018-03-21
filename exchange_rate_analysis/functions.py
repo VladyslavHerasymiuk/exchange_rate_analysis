@@ -91,17 +91,16 @@ def parse_rate_in_PravexBank(text):
     tree = html.fromstring(text)
     xpath = '//div[@class="currency clearfix"]'
     table_tbody_tr = tree.xpath(xpath)[1:3]
-    it = iter(['USD', 'EUR'])
 
     for tr_val in table_tbody_tr:
         td = tr_val.xpath('.//div/text()')[2::2]
-        td = list(map(lambda x: "".join(x.split()), td))
-        results.update({
-            next(it): {
-                'buy': td[0],
-                'sell': td[1]
-            }
-        })
+        td = ["".join(x.split()) for x in td]
+        for i in ['USD', 'EUR']:
+            results[i] = {
+                    'buy': td[0],
+                    'sell': td[1]
+                }
+
     xpath_to_xml('Oshad', xpath)
     return results
 
