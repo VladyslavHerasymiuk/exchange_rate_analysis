@@ -1,4 +1,4 @@
 Description
 ===========
 
-Exchange rate analisys program.
+Exchange rate analysis program.
