@@ -37,7 +37,7 @@ setup(
         'timeout-decorator==0.3.2',
         'traceback2==1.4.0',
         'unittest2==1.1.0',
-        'urllib3==1.22',
+        'urllib3==1.24.2',
         'xmltodict==0.11.0',
     ]
 )
