@@ -15,7 +15,7 @@ setup(
         'cffi==1.11.5',
         'chardet==3.0.4',
         'coverage==4.5.1',
-        'cryptography==2.1.4',
+        'cryptography==3.2',
         'eventlet==0.22.0',
         'greenlet==0.4.13',
         'idna==2.6',
