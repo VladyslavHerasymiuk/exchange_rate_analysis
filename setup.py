@@ -16,7 +16,7 @@ setup(
         'chardet==3.0.4',
         'coverage==4.5.1',
         'cryptography==2.1.4',
-        'eventlet==0.22.0',
+        'eventlet==0.31.0',
         'greenlet==0.4.13',
         'idna==2.6',
         'linecache2==1.0.0',
