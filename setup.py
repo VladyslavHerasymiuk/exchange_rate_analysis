@@ -20,7 +20,7 @@ setup(
         'greenlet==0.4.13',
         'idna==2.6',
         'linecache2==1.0.0',
-        'lxml==4.1.1',
+        'lxml==4.6.5',
         'mock==2.0.0',
         'pbr==3.1.1',
         'pep8==1.7.1',
